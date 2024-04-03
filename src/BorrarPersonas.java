@@ -40,14 +40,15 @@ public class BorrarPersonas extends JDialog {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
-
+        
         JList<String> list = new JList<>();
         list.setValueIsAdjusting(true);
         list.setModel(new DefaultListModel<>());
+        //Utilizo el scroll pane, y dentro meto la lista
         JScrollPane scrollPane = new JScrollPane(list);
         scrollPane.setBounds(10, 11, 232, 314);
         contentPane.add(scrollPane);
-
+        //Reutilizo el codigo de mostrar personas para la lista de borrar
         String[] nombres = obtenerNombres(personas);
 
         DefaultListModel<String> modeloLista = new DefaultListModel<>();
@@ -62,12 +63,14 @@ public class BorrarPersonas extends JDialog {
         JButton btnBorrar = new JButton("Borrar");
         btnBorrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int selectedIndex = list.getSelectedIndex();
-                if (selectedIndex != -1) {
+            	//Lo de getSelectedIndex es para que la posicion del nombre seleccionado se guarde en una varible, la que he llamado indiceSeleccionado.
+                int indiceSeleccionado = list.getSelectedIndex();
+                //Si la posicion seleccionada no es -1, lo que significa que si se ha seleccionado algo, muestre el mensaje y lo borre.
+                if (indiceSeleccionado != -1) {
                     String nombreSeleccionado = list.getSelectedValue();
                     int respuesta = JOptionPane.showConfirmDialog(contentPane, "¿Seguro que quieres borrar a " + nombreSeleccionado + "?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
                     if (respuesta == JOptionPane.YES_OPTION) {
-                        borrarPersona(selectedIndex);
+                        borrarPersona(indiceSeleccionado);
                         dispose();
                     }
                 }

@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
+import javax.swing.JScrollPane;
 
 public class MostrarPersonas extends JDialog {
 
@@ -46,31 +47,34 @@ public class MostrarPersonas extends JDialog {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JList list = new JList();
-		list.setValueIsAdjusting(true);
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		list.setBounds(0, 0, 252, 369);
-		contentPane.add(list);
-		
 		String[] nombres = obtenerNombres(personas);
-
+		//Para poner los nombres en la lista
         DefaultListModel<String> modeloLista = new DefaultListModel<>();
         for (String nombre : nombres) {
             if (nombre != null) {
                 modeloLista.addElement(nombre);
             }
         }
-
-        list.setModel(modeloLista);
+        //Utilizo el scroll pane, y dentro meto la lista
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(10, 11, 232, 314);
+        contentPane.add(scrollPane);
         
+        JList list = new JList();
+        scrollPane.setViewportView(list);
+        list.setValueIsAdjusting(true);
+        list.setModel(new AbstractListModel() {
+        	String[] values = new String[] {};
+        	public int getSize() {
+        		return values.length;
+        	}
+        	public Object getElementAt(int index) {
+        		return values[index];
+        	}
+        });
+        
+                list.setModel(modeloLista);
+        //Para que cuando selecciono un nombre, me salga la info
         list.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
@@ -102,5 +106,4 @@ public class MostrarPersonas extends JDialog {
         String mensaje = "Nombre: " + persona.getNombre() + "\n" + "Email: " + persona.getEmail() + "\n" + "Edad: " + persona.getEdad();
         JOptionPane.showMessageDialog(this, mensaje, "Información de Persona", JOptionPane.INFORMATION_MESSAGE);
     }
-
 }

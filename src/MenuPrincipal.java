@@ -7,6 +7,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class MenuPrincipal extends JFrame {
 
@@ -37,9 +43,11 @@ public class MenuPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public MenuPrincipal() {
+		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MenuPrincipal.class.getResource("/Imagenes/nicolas-cage-biografia-fotos.jpg")));
 		setTitle("Menu Principal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 497, 341);
+		setBounds(100, 100, 491, 342);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -47,6 +55,9 @@ public class MenuPrincipal extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnIntroducirDatos = new JButton("Introducir Datos");
+		btnIntroducirDatos.setBorder(new LineBorder(new Color(51, 153, 153), 4, true));
+		btnIntroducirDatos.setFocusable(false);
+		btnIntroducirDatos.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		btnIntroducirDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				InsertarDatos datos = new InsertarDatos(null, personas);
@@ -57,6 +68,9 @@ public class MenuPrincipal extends JFrame {
 		contentPane.add(btnIntroducirDatos);
 		
 		JButton btnConsultarPersonas = new JButton("Consultar Personas");
+		btnConsultarPersonas.setBorder(new LineBorder(new Color(51, 153, 153), 4, true));
+		btnConsultarPersonas.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		btnConsultarPersonas.setFocusable(false);
 		btnConsultarPersonas.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        MostrarPersonas mostrar = new MostrarPersonas(null, personas);
@@ -67,6 +81,9 @@ public class MenuPrincipal extends JFrame {
 		contentPane.add(btnConsultarPersonas);
 		
 		btnBorrarPersonas = new JButton("Borrar Personas");
+		btnBorrarPersonas.setBorder(new LineBorder(new Color(51, 153, 153), 4, true));
+		btnBorrarPersonas.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		btnBorrarPersonas.setFocusable(false);
 		btnBorrarPersonas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BorrarPersonas borrar = new BorrarPersonas(null, personas);
@@ -75,6 +92,10 @@ public class MenuPrincipal extends JFrame {
 		});
 		btnBorrarPersonas.setBounds(163, 176, 153, 38);
 		contentPane.add(btnBorrarPersonas);
+		
+		JLabel lblFondo = new JLabel("");
+		lblFondo.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/Imagenes/RpiQZf.gif")));
+		lblFondo.setBounds(0, 0, 481, 303);
+		contentPane.add(lblFondo);
 	}
-
 }

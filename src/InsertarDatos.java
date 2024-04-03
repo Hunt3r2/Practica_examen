@@ -14,6 +14,9 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class InsertarDatos extends JDialog{
 
@@ -61,36 +64,42 @@ public class InsertarDatos extends JDialog{
 		contentPane.setLayout(null);
 		
 		JLabel lblNombre = new JLabel("Nombre: ");
-		lblNombre.setBounds(76, 72, 67, 14);
+		lblNombre.setFont(new Font("Arial", Font.ITALIC, 15));
+		lblNombre.setBounds(61, 72, 82, 14);
 		contentPane.add(lblNombre);
 		
 		textFieldNombre = new JTextField();
-		textFieldNombre.setBounds(172, 65, 117, 29);
+		textFieldNombre.setBounds(172, 65, 153, 29);
 		contentPane.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 		
 		lblEmail = new JLabel("Email: ");
-		lblEmail.setBounds(76, 116, 44, 14);
+		lblEmail.setFont(new Font("Arial", Font.ITALIC, 15));
+		lblEmail.setBounds(61, 116, 82, 14);
 		contentPane.add(lblEmail);
 		
 		textFieldEmail = new JTextField();
-		textFieldEmail.setBounds(172, 105, 117, 29);
+		textFieldEmail.setBounds(172, 105, 153, 29);
 		contentPane.add(textFieldEmail);
 		textFieldEmail.setColumns(10);
 		
 		lblEdad = new JLabel("Edad: ");
-		lblEdad.setBounds(76, 160, 44, 14);
+		lblEdad.setFont(new Font("Arial", Font.ITALIC, 15));
+		lblEdad.setBounds(61, 160, 82, 14);
 		contentPane.add(lblEdad);
 		
 		textFieldEdad = new JTextField();
-		textFieldEdad.setBounds(172, 153, 117, 29);
+		textFieldEdad.setBounds(172, 153, 153, 29);
 		contentPane.add(textFieldEdad);
 		textFieldEdad.setColumns(10);
 		
 		btnIntroducir = new JButton("Introducir");
+		btnIntroducir.setBackground(new Color(51, 255, 255));
+		btnIntroducir.setBorder(new LineBorder(new Color(51, 0, 153), 2, true));
+		btnIntroducir.setFont(new Font("Papyrus", Font.PLAIN, 19));
 		btnIntroducir.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        int indice = encontrarPrimerIndiceDisponible();
+		        int indice = encontrarIndiceDisponible();
 		        if (indice != -1) {
 		            String nombre = textFieldNombre.getText();
 		            String email = textFieldEmail.getText();
@@ -105,11 +114,11 @@ public class InsertarDatos extends JDialog{
 		        dispose();
 		    }
 		});
-		btnIntroducir.setBounds(142, 218, 89, 23);
+		btnIntroducir.setBounds(134, 219, 112, 45);
 		contentPane.add(btnIntroducir);
 	}
 	
-	private int encontrarPrimerIndiceDisponible() {
+	private int encontrarIndiceDisponible() {
         for (int i = 0; i < personas.length; i++) {
             if (personas[i] == null) {
                 return i;
