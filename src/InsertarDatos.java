@@ -98,10 +98,6 @@ public class InsertarDatos extends JDialog{
 		            personas[indice] = new Persona(nombre, email, edad);
 		            if (edad <= 0) {
 		                JOptionPane.showMessageDialog(contentPane, "Por favor, pon una edad válida (>=1)", "Edad errónea", JOptionPane.ERROR_MESSAGE);
-		            } else {
-		                // Crear una nueva instancia de MostrarPersonas con el arreglo personas actualizado
-		                MostrarPersonas mostrar = new MostrarPersonas(null, personas);
-		                mostrar.mostrar();
 		            }
 		        } else {
 		            JOptionPane.showMessageDialog(contentPane, "No hay espacio disponible para más personas", "Error", JOptionPane.ERROR_MESSAGE);

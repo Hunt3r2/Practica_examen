@@ -59,15 +59,20 @@ public class MenuPrincipal extends JFrame {
 		JButton btnConsultarPersonas = new JButton("Consultar Personas");
 		btnConsultarPersonas.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        InsertarDatos datos = new InsertarDatos(null, personas);
-		        datos.insertar();
-		        // La ventana InsertarDatos se cerrará automáticamente después de introducir los datos
+		        MostrarPersonas mostrar = new MostrarPersonas(null, personas);
+		        mostrar.mostrar();
 		    }
 		});
 		btnConsultarPersonas.setBounds(163, 127, 153, 38);
 		contentPane.add(btnConsultarPersonas);
 		
 		btnBorrarPersonas = new JButton("Borrar Personas");
+		btnBorrarPersonas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BorrarPersonas borrar = new BorrarPersonas(null, personas);
+		        borrar.mostrar();
+			}
+		});
 		btnBorrarPersonas.setBounds(163, 176, 153, 38);
 		contentPane.add(btnBorrarPersonas);
 	}

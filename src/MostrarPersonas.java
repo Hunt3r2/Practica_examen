@@ -3,7 +3,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
@@ -21,7 +24,7 @@ public class MostrarPersonas extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
+					setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -59,7 +62,6 @@ public class MostrarPersonas extends JDialog {
 		
 		String[] nombres = obtenerNombres(personas);
 
-        // Actualizar el modelo de lista con los nombres de las personas
         DefaultListModel<String> modeloLista = new DefaultListModel<>();
         for (String nombre : nombres) {
             if (nombre != null) {
@@ -68,7 +70,23 @@ public class MostrarPersonas extends JDialog {
         }
 
         list.setModel(modeloLista);
+        
+        list.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int index = list.getSelectedIndex();
+                    if (index != -1) {
+                        Persona personaSeleccionada = personas[index];
+                        if (personaSeleccionada != null) {
+                            mostrarInformacionPersona(personaSeleccionada);
+                        }
+                    }
+                }
+            }
+        });
     }
+	
+	
 
 	private String[] obtenerNombres(Persona[] personas) {
 	    String[] nombres = new String[personas.length];
@@ -79,5 +97,10 @@ public class MostrarPersonas extends JDialog {
 	    }
 	    return nombres;
 	}
+	
+	private void mostrarInformacionPersona(Persona persona) {
+        String mensaje = "Nombre: " + persona.getNombre() + "\n" + "Email: " + persona.getEmail() + "\n" + "Edad: " + persona.getEdad();
+        JOptionPane.showMessageDialog(this, mensaje, "Información de Persona", JOptionPane.INFORMATION_MESSAGE);
+    }
 
 }
