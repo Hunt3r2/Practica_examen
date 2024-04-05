@@ -37,10 +37,10 @@ public class MostrarPersonas extends JDialog {
 	 * Create the frame.
 	 */
 	public MostrarPersonas(JFrame ventanaMostrar, Persona[] personas) {
-		super(ventanaMostrar);
-		setTitle("Lista de Nombres");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 268, 408);
+		super(ventanaMostrar, true);
+	    setTitle("Lista de Nombres");
+	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    setBounds(100, 100, 268, 408);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -49,7 +49,7 @@ public class MostrarPersonas extends JDialog {
 		
 		String[] nombres = obtenerNombres(personas);
 		//Para poner los nombres en la lista
-        DefaultListModel<String> modeloLista = new DefaultListModel<>();
+        DefaultListModel modeloLista = new DefaultListModel();
         for (String nombre : nombres) {
             if (nombre != null) {
                 modeloLista.addElement(nombre);
@@ -73,13 +73,23 @@ public class MostrarPersonas extends JDialog {
         	}
         });
         
+        String[] nuevosNombres = obtenerNombres(personas);
+        DefaultListModel nuevoModeloLista = new DefaultListModel();
+        for (String nombre : nuevosNombres) {
+            if (nombre != null) {
+                nuevoModeloLista.addElement(nombre);
+            }
+        }
+        list.setModel(nuevoModeloLista);
+        
                 list.setModel(modeloLista);
-        //Para que cuando selecciono un nombre, me salga la info
+        //Para que cuando selecciono un nombre, me salga la info. El metodo valueChanged está en la página de Java en Oracle
         list.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     int index = list.getSelectedIndex();
                     if (index != -1) {
+                    	//creo el objeto persona personaSeleccionada en el que meto la persona que se a seleccionado 
                         Persona personaSeleccionada = personas[index];
                         if (personaSeleccionada != null) {
                             mostrarInformacionPersona(personaSeleccionada);
@@ -91,7 +101,7 @@ public class MostrarPersonas extends JDialog {
     }
 	
 	
-
+	 //metodo para meter los nombres en la lista
 	private String[] obtenerNombres(Persona[] personas) {
 	    String[] nombres = new String[personas.length];
 	    for (int i = 0; i < personas.length; i++) {

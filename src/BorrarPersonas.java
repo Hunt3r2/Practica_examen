@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -17,6 +18,7 @@ public class BorrarPersonas extends JDialog {
 
     private JPanel contentPane;
     private Persona[] personas;
+    private DefaultListModel modeloLista;
 
     public void mostrar() {
         EventQueue.invokeLater(new Runnable() {
@@ -31,7 +33,7 @@ public class BorrarPersonas extends JDialog {
     }
 
     public BorrarPersonas(JFrame ventanaBorrar, Persona[] personas) {
-        super(ventanaBorrar);
+        super(ventanaBorrar, true);
         this.personas = personas;
         setTitle("Borrar Datos");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -41,9 +43,9 @@ public class BorrarPersonas extends JDialog {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
-        JList<String> list = new JList<>();
+        JList list = new JList();
         list.setValueIsAdjusting(true);
-        list.setModel(new DefaultListModel<>());
+        list.setModel(new DefaultListModel());
         //Utilizo el scroll pane, y dentro meto la lista
         JScrollPane scrollPane = new JScrollPane(list);
         scrollPane.setBounds(10, 11, 232, 314);
@@ -51,7 +53,7 @@ public class BorrarPersonas extends JDialog {
         //Reutilizo el codigo de mostrar personas para la lista de borrar
         String[] nombres = obtenerNombres(personas);
 
-        DefaultListModel<String> modeloLista = new DefaultListModel<>();
+        DefaultListModel modeloLista = new DefaultListModel();
         for (String nombre : nombres) {
             if (nombre != null) {
                 modeloLista.addElement(nombre);
@@ -59,29 +61,44 @@ public class BorrarPersonas extends JDialog {
         }
 
         list.setModel(modeloLista);
-
-        JButton btnBorrar = new JButton("Borrar");
-        btnBorrar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	//Lo de getSelectedIndex es para que la posicion del nombre seleccionado se guarde en una varible, la que he llamado indiceSeleccionado.
-                int indiceSeleccionado = list.getSelectedIndex();
-                //Si la posicion seleccionada no es -1, lo que significa que si se ha seleccionado algo, muestre el mensaje y lo borre.
-                if (indiceSeleccionado != -1) {
-                    String nombreSeleccionado = list.getSelectedValue();
-                    int respuesta = JOptionPane.showConfirmDialog(contentPane, "¿Seguro que quieres borrar a " + nombreSeleccionado + "?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
-                    if (respuesta == JOptionPane.YES_OPTION) {
-                        borrarPersona(indiceSeleccionado);
-                        dispose();
+        
+        list.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                	int indiceSeleccionado = list.getSelectedIndex();
+                    if (indiceSeleccionado != -1) {
+                    	//creo el objeto persona personaSeleccionada en el que meto la persona que se a seleccionado 
+                        Persona personaSeleccionada = personas[indiceSeleccionado];
+                        if (personaSeleccionada != null) {
+                        	String nombreSeleccionado = (String) list.getSelectedValue();
+                            int respuesta = JOptionPane.showConfirmDialog(contentPane, "¿Seguro que quieres borrar a " + nombreSeleccionado + "?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+                            if (respuesta == JOptionPane.YES_OPTION) {
+                                borrarPersona(indiceSeleccionado);
+                                dispose();
+                            }
+                        }
                     }
                 }
             }
         });
+        actualizarLista();
         dispose();
-        btnBorrar.setBounds(85, 336, 89, 23);
-        contentPane.add(btnBorrar);
-
+        
     }
-
+    
+    private void actualizarLista() {
+        modeloLista.removeAllElements();
+        String[] nombres = obtenerNombres(personas);
+        for (String nombre : nombres) {
+            if (nombre != null) {
+                modeloLista.addElement(nombre);
+            }
+        }
+    }
+    
+    
+    
+    //metodo para meter los nombres en la lista
     private String[] obtenerNombres(Persona[] personas) {
         String[] nombres = new String[personas.length];
         for (int i = 0; i < personas.length; i++) {
@@ -91,9 +108,11 @@ public class BorrarPersonas extends JDialog {
         }
         return nombres;
     }
+    
 
     private void borrarPersona(int indice) {
         personas[indice] = null;
+        actualizarLista();
     }
 
 }

@@ -21,7 +21,7 @@ public class MenuPrincipal extends JFrame {
 	private JButton btnBorrarPersonas;
 	private Persona[] personas = new Persona[5];
 
-	
+	//he intentado documentar en todas las clases, y explicar lo que hacen los metodos, si hay algo que me ha faltado, lo siento. 
 
 	/**
 	 * Launch the application.

@@ -51,7 +51,8 @@ public class InsertarDatos extends JDialog{
 	 * Create the frame.
 	 */
 	public InsertarDatos(JFrame VentanaDatos, Persona[] personas) {
-		super(VentanaDatos);
+		super(VentanaDatos, true); //lo pongo aqui pero se aplica en todas las clases, todas las ventanas son JDialog,
+													//esto y el super con true hace que no me deje acceder a la ventana anterior a no ser que cierre, el menú principal.
 		this.personas = personas;
 		
 		setTitle("Insertar Datos");
@@ -99,16 +100,18 @@ public class InsertarDatos extends JDialog{
 		btnIntroducir.setFont(new Font("Papyrus", Font.PLAIN, 19));
 		btnIntroducir.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        int indice = encontrarIndiceDisponible();
+		        int indice = encontrarHuecoDisponible();
 		        if (indice != -1) {
 		            String nombre = textFieldNombre.getText();
 		            String email = textFieldEmail.getText();
 		            int edad = Integer.parseInt(textFieldEdad.getText());
 		            personas[indice] = new Persona(nombre, email, edad);
+		            //comprobacion de edad, si es menor a 1, da un mensaje de error
 		            if (edad <= 0) {
 		                JOptionPane.showMessageDialog(contentPane, "Por favor, pon una edad válida (>=1)", "Edad errónea", JOptionPane.ERROR_MESSAGE);
 		            }
 		        } else {
+		        	//si el encontrarHuecoDisponible dice que no hay espacio, da un mensaje de error
 		            JOptionPane.showMessageDialog(contentPane, "No hay espacio disponible para más personas", "Error", JOptionPane.ERROR_MESSAGE);
 		        }
 		        dispose();
@@ -118,7 +121,8 @@ public class InsertarDatos extends JDialog{
 		contentPane.add(btnIntroducir);
 	}
 	
-	private int encontrarIndiceDisponible() {
+	//para ver que hueco está libre
+	private int encontrarHuecoDisponible() {
         for (int i = 0; i < personas.length; i++) {
             if (personas[i] == null) {
                 return i;
